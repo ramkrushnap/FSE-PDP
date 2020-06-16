@@ -2,12 +2,15 @@ package com.boot.poc.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="product")
 public class Product implements Serializable {
 
 	/**
@@ -19,10 +22,13 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Column(name="type")
 	private String type;
 
+	@Column(name="name", length = 20)
 	private String name;
 
+	@Column(name="code")
 	private String code;
 
 //	    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)

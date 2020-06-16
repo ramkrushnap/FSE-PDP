@@ -28,8 +28,8 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.boot.poc.controller.service.ProductService;
 import com.boot.poc.model.Product;
+import com.boot.poc.service.ProductService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ProductController.class)
@@ -78,7 +78,7 @@ public class ProductControllerTest {
 
 		Product mockProduct = new Product(2l, "lapi", "hp", "123445");
 
-		when(mockService.InitializeUpdate(mockProduct)).thenReturn(new ResponseEntity<>(mockProduct, HttpStatus.OK));
+		when(mockService.InitializeUpdate(mockProduct)).thenReturn(mockProduct);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/inventory/api/products")
 				.accept(MediaType.APPLICATION_JSON).content(getArticleInJson()).contentType(MediaType.APPLICATION_JSON);
@@ -86,15 +86,14 @@ public class ProductControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		MockHttpServletResponse response = result.getResponse();
-		assertEquals(HttpStatus.OK.value(), response.getStatus());
+		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 	}
-
+	
 	@Test
 	public void updateProductTest() throws Exception {
 		MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/inventory/api/products/1")
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(getArticleInJson());
-
-		this.mockMvc.perform(requestBuilder).andExpect(status().isOk());
+		mockMvc.perform(requestBuilder).andExpect(status().isOk());
 	}
 
 	@Test
