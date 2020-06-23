@@ -1,4 +1,4 @@
-package com.boot.poc.model;
+package com.boot.poc.products.model;
 
 import java.io.Serializable;
 
@@ -25,17 +25,11 @@ public class Product implements Serializable {
 	@Column(name="type")
 	private String type;
 
-	@Column(name="name", length = 20)
+	@Column(name="name", length = 20, nullable = false)
 	private String name;
 
-	@Column(name="code")
+	@Column(name="code", nullable = false)
 	private String code;
-
-//	    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
-//	    private Supplier supplier;
-//
-//	    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
-//	    private Warehouse warehouse;
 
 	public Long getId() {
 		return id;

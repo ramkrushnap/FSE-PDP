@@ -11,11 +11,16 @@
 	<groupId>com.boot</groupId>
 	<artifactId>inventory-management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>inventory-management</name>
 	<description>Spring Boot POC</description>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<sonar.projectKey>ramkrushnap_FSE-PDP</sonar.projectKey>
+		<sonar.organization>ramkrushnap</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.login>79577922862bd3de160eb63d34be26a6301eb655</sonar.login>
 	</properties>
 
 	<dependencies>
@@ -31,11 +36,6 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-<!-- 	<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-		</dependency>
-	-->	
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
