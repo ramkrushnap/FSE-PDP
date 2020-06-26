@@ -27,7 +27,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.boot.poc.products.controller.ProductController;
@@ -153,6 +152,21 @@ public class ProductControllerTest {
 		MockHttpServletResponse response = result.getResponse();
 		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 	}
+	
+	@Test
+	public void addProduct_Exception_Test() throws Exception {
+
+		when(mockService.addProduct(any(Product.class))).thenThrow(new RuntimeException());
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/inventory/api/products/v1.0")
+				.accept(MediaType.APPLICATION_JSON).content(getArticleInJson()).contentType(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		MockHttpServletResponse response = result.getResponse();
+		assertEquals(HttpStatus.EXPECTATION_FAILED.value(), response.getStatus());
+	}
+
 
 	@Test
 	public void addNewProductTest() throws Exception {
@@ -169,6 +183,21 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 	}
 
+	@Test
+	public void addNewProduct_Exception_Test() throws Exception {
+
+		when(mockService.addNewProduct(any(ProductNew.class))).thenThrow(new RuntimeException());
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/inventory/api/products/v1.1")
+				.accept(MediaType.APPLICATION_JSON).content(getArticleInJson()).contentType(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		MockHttpServletResponse response = result.getResponse();
+		assertEquals(HttpStatus.EXPECTATION_FAILED.value(), response.getStatus());
+	}
+
+	
 	@Test
 	public void updateProductTest() throws Exception {
 

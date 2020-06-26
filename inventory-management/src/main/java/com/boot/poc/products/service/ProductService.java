@@ -3,10 +3,13 @@ package com.boot.poc.products.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.boot.poc.products.constants.ProductConstants;
 import com.boot.poc.products.exception.ProductNotFoundException;
 import com.boot.poc.products.model.Product;
 import com.boot.poc.products.model.ProductNew;
@@ -15,6 +18,8 @@ import com.boot.poc.products.repository.ProductRepository;
 
 @Service
 public class ProductService {
+	
+	public static final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -24,21 +29,25 @@ public class ProductService {
 
 	@Cacheable(value = "products")
 	public List<Product> findAllProduct() {
+		logger.info(ProductConstants.SERVICE_GET_STARTED_V10);
 		return productRepository.findAll();
 	}
 	
 	@Cacheable(value = "newproducts")
 	public List<ProductNew> findAllNewProduct() {
+		logger.info(ProductConstants.SERVICE_GET_STARTED_V11);
 		return newProductRepository.findAll();
 	}
 
 	@Cacheable(value = "products", key="#id")
 	public Product findById(long id) {
+		logger.info(ProductConstants.SERVICE_GET_STARTED_BY_ID_V10);
 		return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 	}
 	
 	@Cacheable(value = "newproduct", key="#id")
 	public ProductNew findNewProductById(long id) {
+		logger.info(ProductConstants.SERVICE_GET_STARTED_BY_ID_V10);
 		return newProductRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 	}
 
