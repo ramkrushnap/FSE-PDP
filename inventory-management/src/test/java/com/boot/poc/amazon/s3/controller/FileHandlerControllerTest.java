@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -28,7 +29,8 @@ public class FileHandlerControllerTest {
 
 	@MockBean
 	private AmazonS3ClientService amazonS3ClientService;
-	
+
+	@WithMockUser("spring")
 	@Test
 	public void findAllPostTest() throws Exception {
 
