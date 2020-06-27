@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,11 +25,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.boot.poc.products.controller.ProductController;
 import com.boot.poc.products.model.Product;
@@ -46,7 +51,11 @@ public class ProductControllerTest {
 
 	@MockBean
 	private ProductService mockService;
+	
+	@Autowired
+	private WebApplicationContext context;
 
+	@WithMockUser("spring")
 	@Test
 	public void findAllTest() throws Exception {
 
@@ -62,6 +71,7 @@ public class ProductControllerTest {
 				.andReturn();
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void findAll_Empty_Test() throws Exception {
 
@@ -71,6 +81,7 @@ public class ProductControllerTest {
      	assertTrue(response);
 	}
 	
+	@WithMockUser("spring")
 	@Test
 	public void fetchAllNewProduct() throws Exception {
 
@@ -87,6 +98,7 @@ public class ProductControllerTest {
 				.andReturn();
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void findAllNewProduct_Empty_Test() throws Exception {
 		when(mockService.findAllNewProduct()).thenReturn(Collections.emptyList());
@@ -95,6 +107,7 @@ public class ProductControllerTest {
      	assertTrue(response);
 	}
 	
+	@WithMockUser("spring")
 	@Test
 	public void findByIdTest() throws Exception {
 
@@ -109,6 +122,7 @@ public class ProductControllerTest {
 				.andExpect(jsonPath("$.name", is("hp")));
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void fetchNewProductById() throws Exception {
 
@@ -123,6 +137,7 @@ public class ProductControllerTest {
 				.andExpect(jsonPath("$.productName", is("hp")));
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void findAllPostTest() throws Exception {
 
@@ -138,6 +153,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void addProductTest() throws Exception {
 
@@ -153,6 +169,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 	}
 	
+	@WithMockUser("spring")
 	@Test
 	public void addProduct_Exception_Test() throws Exception {
 
@@ -167,7 +184,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.EXPECTATION_FAILED.value(), response.getStatus());
 	}
 
-
+	@WithMockUser("spring")
 	@Test
 	public void addNewProductTest() throws Exception {
 
@@ -183,6 +200,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void addNewProduct_Exception_Test() throws Exception {
 
@@ -197,7 +215,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.EXPECTATION_FAILED.value(), response.getStatus());
 	}
 
-	
+	@WithMockUser("spring")
 	@Test
 	public void updateProductTest() throws Exception {
 
@@ -212,6 +230,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.OK.value(), status);
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void updateProduct_Null_Test() throws Exception {
 
@@ -225,6 +244,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.NOT_FOUND.value(), status);
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void updateNewProductTest() throws Exception {
 
@@ -239,6 +259,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.OK.value(), status);
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void updateNewProduct_Null_Test() throws Exception {
 
@@ -252,6 +273,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.NOT_FOUND.value(), status);
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void deleteByIdTest() throws Exception {
 
@@ -263,6 +285,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.OK.value(), status);
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void deleteById_Null_Test() throws Exception {
 
@@ -273,6 +296,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.EXPECTATION_FAILED.value(), status);
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void deleteNewProductById() throws Exception {
 
@@ -284,6 +308,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.OK.value(), status);
 	}
 
+	@WithMockUser("spring")
 	@Test
 	public void deleteNewProductById_Null_Test() throws Exception {
 
