@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class ProductService {
 		return productRepository.findAll();
 	}
 	
-	@Cacheable(value = "newproducts")
+	@Cacheable(value = "products",key = "#root.methodName")
 	public List<ProductNew> findAllNewProduct() {
 		logger.info(ProductConstants.SERVICE_GET_STARTED_V11);
 		return newProductRepository.findAll();
@@ -45,20 +46,23 @@ public class ProductService {
 		return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 	}
 	
-	@Cacheable(value = "newproduct", key="#id")
+	@Cacheable(value = "products", key="#id")
 	public ProductNew findNewProductById(long id) {
 		logger.info(ProductConstants.SERVICE_GET_STARTED_BY_ID_V10);
 		return newProductRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 	}
 
+	@CacheEvict(value= "products", allEntries= true)
 	public Product addProduct(Product prod) {
 			return productRepository.save(prod);
 	}
 	
+	@CacheEvict(value= "products", allEntries= true)
 	public ProductNew addNewProduct(ProductNew prod) {
 		return newProductRepository.save(prod);
 }
 	
+	@CacheEvict(value= "products", allEntries= true)
 	public Product updateById(long id, Product product){
 		 Optional<Product> productData = productRepository.findById(id);
 
@@ -72,6 +76,7 @@ public class ProductService {
 			return null; 
 	}
 	
+	@CacheEvict(value= "products", allEntries= true)
 	public ProductNew updateNewProductById(long id, ProductNew product){
 		 Optional<ProductNew> productData = newProductRepository.findById(id);
 
@@ -85,6 +90,7 @@ public class ProductService {
 			return null; 
 	}
 	
+	@CacheEvict(value= "products", allEntries= true)
 	public Product deleteById(long id){
 		Optional<Product> product = productRepository.findById(id);
 		if (product.isPresent()) {
@@ -94,6 +100,7 @@ public class ProductService {
 		return null; 
 	}
 	
+	@CacheEvict(value= "products", allEntries= true)
 	public ProductNew deleteNewProductById(long id){
 		Optional<ProductNew> newProduct = newProductRepository.findById(id);
 		if (newProduct.isPresent()) {
